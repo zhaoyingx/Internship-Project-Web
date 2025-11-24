@@ -18,6 +18,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "echarts": "^6.0.0",
     "pinia": "^3.0.3",
     "sass": "^1.94.2",
     "vite-plugin-vuetify": "^2.1.2",
