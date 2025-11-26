@@ -55,58 +55,28 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import * as echarts from 'echarts'
+// import * as echarts from 'echarts'
+import { get } from '@/services/api'
 
 const chartRef1 = ref<HTMLDivElement | null>(null)
 const chartRef2 = ref<HTMLDivElement | null>(null)
-let chartInstance1: echarts.ECharts | null = null
-let chartInstance2: echarts.ECharts | null = null
 
-onMounted(() => {
-  if (chartRef1.value) {
-    chartInstance1 = echarts.init(chartRef1.value)
-    chartInstance1.setOption({
-      title: { text: 'ECharts 示例柱状图' },
-      tooltip: {},
-      xAxis: {
-        data: ['A', 'B', 'C', 'D', 'E', 'F'],
-      },
-      yAxis: {},
-      series: [
-        {
-          name: '人数',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20],
-        },
-      ],
-    })
+onMounted(async () => {
+  // 测试接口请求
+  try {
+    const params = {
+      year: '2023',
+      university: 'National University of Singapore',
+    }
+    const testData = await get('/graduate-employment', params)
+    console.log('response daata:', testData)
+  } catch (error) {
+    console.error('error request:', error)
   }
-  if (chartRef2.value) {
-    chartInstance2 = echarts.init(chartRef2.value)
-    chartInstance2.setOption({
-      title: { text: 'ECharts 示例折线图' },
-      tooltip: {},
-      xAxis: {
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      },
-      yAxis: {},
-      series: [
-        {
-          name: '访问量',
-          type: 'line',
-          data: [150, 230, 224, 218, 135, 147, 260],
-        },
-      ],
-    })
-  }
+
+
 })
 
 onBeforeUnmount(() => {
-  if (chartInstance1) {
-    chartInstance1.dispose()
-  }
-  if (chartInstance2) {
-    chartInstance2.dispose()
-  }
 })
 </script>
